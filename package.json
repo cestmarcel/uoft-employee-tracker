@@ -1,0 +1,24 @@
+{
+  "name": "uoft-employee-tracker",
+  "version": "1.0.0",
+  "description": "A simple application for managing a company's employees using node, inquirer, and MySQL.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cestmarcel/uoft-employee-tracker.git"
+  },
+  "author": "Marcel Thiemann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cestmarcel/uoft-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/cestmarcel/uoft-employee-tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.2.0",
+    "sql": "^0.78.0"
+  }
+}
