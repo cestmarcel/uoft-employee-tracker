@@ -41,10 +41,3 @@ INSERT INTO employee (first_name, last_name, role_id)
 VALUES ("John", "Doe", 1), ("Mike", "Chan", 2), ("Ashley", "Rodriguez", 3), 
 ("Kevin", "Tupik", 4), ("Malia", "Miller", 6), ("Sarah", "Lourd", 8), 
 ("Tom", "Allen", 9), ("Christian", "Eckenrode", 10), ("Alexis", "Rose", 11);
-
-SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name
-FROM department
-JOIN role
-ON department.id = role.department_id
-JOIN employee
-ON role.id = employee.role_id; 
