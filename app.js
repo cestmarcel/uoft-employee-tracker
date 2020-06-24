@@ -65,7 +65,7 @@ async function displayOptions(){
           removeEmployee();
           break;
         case "Update employee role":
-          console.log("Update!");
+          updateEmployeeRole();
           break;
         case "Exit application":
           connection.end();
@@ -153,7 +153,9 @@ function addEmployee(){
         },
         function(err, res) {
           if (err) throw err;
-          console.log("Employee added successfully!")
+          console.log("");
+          console.log("Employee successfully added!")
+          console.log("");
           displayOptions();
         })
     })
@@ -189,7 +191,9 @@ function addDepartment(){
         },
         function(err, res) {
           if (err) throw err;
+          console.log("");
           console.log("Department successfully added!")
+          console.log("");
           displayOptions();
         })
     })
@@ -235,7 +239,9 @@ function addRole(){
       },
       function(err, res) {
         if (err) throw err;
-        console.log("Role successfully added!")
+        console.log("");
+        console.log("Role successfully added!");
+        console.log("");
         displayOptions();
       })
     })
@@ -288,9 +294,81 @@ function removeEmployee(){
         ], 
         function(err, results) {
           if (err) throw err;
+          console.log("");
           console.log(`Successfully removed ${toSplit} from the database!`);
+          console.log("");
           displayOptions();
       });
     }
+  )}
+)}
+
+function updateEmployeeRole(){
+  var newRole;
+  var newId;
+  connection.query("SELECT first_name, last_name FROM employee;", function(err, employeeResults) {
+    if (err) throw err;
+    connection.query("SELECT title FROM role;", function(error, roleResults) {
+      if (error) throw error;
+      inquirer
+        .prompt([
+          {
+            name: "employeeToUpdate",
+            type: "list",
+            choices: function() {
+              var choiceArrayName = [];
+              for (var i = 0; i < employeeResults.length; i++) {
+                choiceArrayName.push(employeeResults[i].first_name + " " + employeeResults[i].last_name);
+              }
+              return choiceArrayName;
+            },
+            message: "Which employee's role would you like to update?"
+          },
+          {
+            name: "newEmployeeRole",
+            type: "list",
+            choices: function() {
+              var choiceArrayRole = [];
+              for (var i = 0; i < roleResults.length; i++) {
+                choiceArrayRole.push(roleResults[i].title);
+              }
+              return choiceArrayRole;
+            },
+            message: "What's the employee's new role?"
+          }
+        ])
+        .then(function(result){
+          newRole = result.newEmployeeRole;
+          toSplit = result.employeeToUpdate;
+          splitResult = toSplit.split(" ");
+          return splitResult;
+        })
+        .then(function(result){
+          return new Promise ((resolve, reject) =>{
+          connection.query("SELECT id FROM role WHERE title = ?", 
+            newRole,
+            function(err, results) {
+              if (err) throw err;
+              newId = results[0].id;
+              resolve();
+            });
+          })
+        })
+        .then(function(result){
+          connection.query("UPDATE employee SET role_id = ? WHERE first_name = ? AND last_name = ?", 
+          [
+            newId,
+            splitResult[0],
+            splitResult[1]
+          ], 
+          function(err, results) {
+            if (err) throw err;
+            console.log("");
+            console.log(`Successfully updated ${toSplit}'s role!`);
+            console.log("");
+            displayOptions();
+        });
+      }
+    )}
   )}
 )}
