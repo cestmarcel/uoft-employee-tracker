@@ -31,7 +31,7 @@ The application is intended to be used as a tracker for employees within a compa
 - Update the role of an employee
 
 Here's an example for an employee overview as an output:
-![Screenshot of the start screen](https://github.com/cestmarcel/uoft-employee-tracker/blob/master/assets/screenshots/emlployees.png)
+![Screenshot of the start screen](https://github.com/cestmarcel/uoft-employee-tracker/blob/master/assets/screenshots/employees.png)
 
 ## License
 
