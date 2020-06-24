@@ -4,6 +4,7 @@ var inquirer = require("inquirer");
 const cTable = require('console.table');
 require('dotenv').config();
 
+// Setting up connection
 var connection = mysql.createConnection({
     host     : process.env.DB_HOST,
     user     : process.env.DB_USER,
@@ -17,12 +18,14 @@ connection.connect(function(err) {
     afterConnection();
 });
 
+// Divider function for better readability of the node app
 function printDivider(){
   console.log("");
   console.log("---------------------------------------------");
   console.log("");
 }
 
+// Welcome screen to be printed after connection is established
 function afterConnection() {
     printDivider();
     console.log("WELCOME TO THE EMPLOYEE TRACKER");
@@ -30,6 +33,7 @@ function afterConnection() {
     displayOptions();
   }
 
+  // Display all options for user to choose from
 async function displayOptions(){
   await inquirer
     .prompt({
@@ -74,6 +78,7 @@ async function displayOptions(){
     }
   )}
 
+// Display all employees and their info
 function viewAllEmployees() {
   printDivider();
   console.log("Here's an overview of all employees:");
@@ -84,6 +89,7 @@ function viewAllEmployees() {
   });
 }
 
+// Display all departments
 function viewAllDepartments() {
   printDivider();
   console.log("Here are all the company's departments:");
@@ -94,6 +100,7 @@ function viewAllDepartments() {
   });
 }
 
+// Display all possible roles
 function viewAllRoles() {
   printDivider();
   console.log("Here are all the available roles:");
@@ -104,6 +111,7 @@ function viewAllRoles() {
   });
 }
 
+// Sort employees by department
 function viewEmployeesByDepartment() {
   printDivider();
   console.log("Here's an overview of all employees by department:");
@@ -114,6 +122,7 @@ function viewEmployeesByDepartment() {
   });
 }
 
+// Add new employee
 function addEmployee(){
   connection.query("SELECT title FROM role", function(err, results) {
     if (err) throw err;
@@ -161,7 +170,7 @@ function addEmployee(){
     })
   }
 )}
-
+// In order to add new employee, we need the role id
 async function getRoleId(input){
   console.log(input);
     return new Promise((resolve, reject) =>{
@@ -176,6 +185,7 @@ async function getRoleId(input){
     });
 }
 
+// Add new department
 function addDepartment(){
     inquirer
       .prompt({
@@ -199,6 +209,7 @@ function addDepartment(){
     })
 }
 
+// Add new role
 function addRole(){
   connection.query("SELECT name FROM department", function(err, results) {
     if (err) throw err;
@@ -247,7 +258,7 @@ function addRole(){
     })
   })
 }
-
+// In order to add new role, we need the department id
 async function getDepartmentId(input){
     return new Promise((resolve, reject) =>{
       connection.query("SELECT id FROM department WHERE ?",
@@ -261,6 +272,7 @@ async function getDepartmentId(input){
     });
 }
 
+// Remove employee from database
 function removeEmployee(){
   var toSplit;
   var splitResult;
@@ -303,6 +315,7 @@ function removeEmployee(){
   )}
 )}
 
+// Update the role of an employee
 function updateEmployeeRole(){
   var newRole;
   var newId;
